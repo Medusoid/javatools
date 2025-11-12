@@ -287,6 +287,7 @@ public class NmredataReader {
 		StringTokenizer st=new StringTokenizer(spectrumblock,lineseparator);
 		double[] freq=null;
 		String location=null;
+		String jcampLocation=null;
 		String jcamp=null;
 		int peakcount=0;
 		Map<NoteDescriptor, String> descriptors=new HashMap<>();
@@ -297,6 +298,8 @@ public class NmredataReader {
 				freq=new double[]{Double.parseDouble(line.substring(7)),Double.parseDouble(line.substring(7))};
 			}else if(line.startsWith("Spectrum_Location=")){
 				location=line.substring(line.indexOf("=")+1);
+			}else if(line.startsWith("Jcamp_location=")){
+				jcampLocation=line.substring(line.indexOf("=")+1);
 			}else if(line.startsWith("Spectrum_Jcamp=") && data.getVersion().compareTo(NmreData.NmredataVersion.ONEPOINTONE)>0){
 				jcamp=line.substring(line.indexOf("=")+1);
 			}else if(line.matches(".*/.*") && (!line.contains("=") || line.indexOf("=")>line.indexOf("/"))){
@@ -397,6 +400,10 @@ public class NmredataReader {
         spectrum.setPeakTable(peakTable);
         NoteDescriptor noteDescriptor=new NoteDescriptor("Spectrum_Location");
         spectrum.setNote(noteDescriptor, location);
+        if(jcampLocation!=null) {
+        	NoteDescriptor jcampLocationDescriptor=new NoteDescriptor("Jcamp_location");
+        	spectrum.setNote(jcampLocationDescriptor, jcampLocation);
+        }
         NoteDescriptor jcampDescriptor=new NoteDescriptor("Spectrum_Jcamp");
         spectrum.setNote(jcampDescriptor, jcamp);
         for(NoteDescriptor descriptor : descriptors.keySet()){

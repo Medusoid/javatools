@@ -76,6 +76,7 @@ public class NmredataWriterTest extends TestCase{
 		data.addSpectrum(new SelectiveNMR1DSpectrum(new OrderedArrayData(new double[] {1}, CommonUnit.hertz), new ArrayData(new double[] {1}, CommonUnit.intensity), 0, 0, "1H", "1H"));
 		((NMRSpectrum)data.getSpectra().get(0)).setPeakTable((Peak1D[])peaks);
 		((NMRSpectrum)data.getSpectra().get(0)).setNote(new NoteDescriptor("Spectrum_Location"),"test");
+		((NMRSpectrum)data.getSpectra().get(0)).setNote(new NoteDescriptor("Jcamp_location"),"jcamptest");
 		((NMRSpectrum)data.getSpectra().get(0)).setNote(new NoteDescriptor("CorType"),"test");
 		data.setVersion(NmredataVersion.ONEPOINTONE);
 		File testfile=new File(System.getProperty("java.io.tmpdir")+"/test.nmredata.sd");
@@ -88,7 +89,7 @@ public class NmredataWriterTest extends TestCase{
         fos.close();
         System.out.print(fos.toString());
         Assert.assertTrue(fos.toString().contains("NMREDATA_1D_1H_D_1H"));
-
+        Assert.assertTrue(fos.toString().contains("Jcamp_location=jcamptest"));
 	}
 	
 	public static void writeStandardFile() throws JCAMPException, CloneNotSupportedException, CDKException, IOException{

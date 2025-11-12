@@ -140,7 +140,10 @@ public class NmredataWriter {
 		for(Spectrum spectrum : data.getSpectra()){
 			StringBuffer spectrumbuffer=new StringBuffer();
 	        NoteDescriptor noteDescriptor=new NoteDescriptor("Spectrum_Location");
-			spectrumbuffer.append("Spectrum_Location="+((Note)spectrum.getNotes(noteDescriptor).get(0)).getValue()+endofline+"\r\n");//TODO
+			spectrumbuffer.append("Spectrum_Location="+((Note)spectrum.getNotes(noteDescriptor).get(0)).getValue()+endofline+"\r\n");
+	        NoteDescriptor jcamplocationNoteDescriptor=new NoteDescriptor("Jcamp_location");
+	        if(spectrum.getNotes(jcamplocationNoteDescriptor)!=null)
+	        	spectrumbuffer.append("Jcamp_location="+((Note)spectrum.getNotes(jcamplocationNoteDescriptor).get(0)).getValue()+endofline+"\r\n");
 	        NoteDescriptor jcampDescriptor=new NoteDescriptor("Spectrum_Jcamp");
 	        if(data.getVersion().compareTo(NmreData.NmredataVersion.ONEPOINTONE)>0 && spectrum.getNotes(jcampDescriptor)!=null && spectrum.getNotes(jcampDescriptor).size()>0 && ((Note)spectrum.getNotes(jcampDescriptor).get(0)).getValue()!=null)
 	        	spectrumbuffer.append("Spectrum_Jcamp="+((Note)spectrum.getNotes(jcampDescriptor).get(0)).getValue()+endofline+"\r\n");
