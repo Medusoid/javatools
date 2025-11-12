@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -46,8 +47,8 @@ public class Convert {
 	        data = reader.read();
 		}else if(input.endsWith("jdx") || input.endsWith("jcamp")) {
 	        JCAMPReader reader = JCAMPReader.getInstance();
-	        Path filePath = Path.of(input);
-	        String content = Files.readString(filePath);
+	        Path filePath = FileSystems.getDefault().getPath(input);
+	        String content = new String(Files.readAllBytes(filePath));
 	        Spectrum spectrum = reader.createSpectrum(content);
 	        data=new NmreData();
 	        data.setVersion(NmredataVersion.ONE);
